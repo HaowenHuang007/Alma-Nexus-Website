@@ -1,8 +1,9 @@
 import { useEffect } from 'react'
 
 /**
- * El sol se mueve hacia abajo y ligeramente a la izquierda con el scroll.
- * Al ~100% del hero queda oculto detrás del panel FV que crece desde abajo.
+ * Trayectoria diagonal: el sol nace arriba-izquierda y se desplaza
+ * progresivamente hacia abajo-derecha conforme se hace scroll,
+ * desvaneciéndose de brillante a tenue (efecto atardecer).
  */
 export function useSunScroll(sunRef) {
   useEffect(() => {
@@ -14,8 +15,8 @@ export function useSunScroll(sunRef) {
     let rafId = null
 
     const readScroll = () => {
-      const vh = window.innerHeight
-      target = Math.min(window.scrollY / (vh * 1.2), 1.2)
+      const max = Math.max(1, document.body.scrollHeight - window.innerHeight)
+      target = Math.min(window.scrollY / max, 1)
       if (!rafId) loop()
     }
 
@@ -28,13 +29,16 @@ export function useSunScroll(sunRef) {
         return
       }
 
-      const tx = -p * 220
-      const ty =  p * 480           // baja más agresivo
-      const rot = -p * 540
-      const sc = Math.max(0.55, 1 - p * 0.45)
-      const opacity = Math.max(0.18, 0.95 - p * 0.7)
-      const glowSize = Math.max(20, 80 - p * 60)
-      const glowAlpha = Math.max(0.08, 0.55 - p * 0.5)
+      // Diagonal: arriba-derecha → abajo-izquierda
+      const vw = window.innerWidth
+      const vh = window.innerHeight
+      const tx = -p * (vw * 0.75)       // se desplaza a la izquierda
+      const ty =  p * (vh * 0.85)       // baja casi una pantalla
+      const rot = -p * 360
+      const sc = 1 - p * 0.35
+      const opacity = Math.max(0.18, 0.95 - p * 0.85)   // brillante → tenue
+      const glowSize = Math.max(20, 80 - p * 65)
+      const glowAlpha = Math.max(0.10, 0.55 - p * 0.50)
 
       sun.style.transform = `translate(${tx}px, ${ty}px) rotate(${rot}deg) scale(${sc})`
       sun.style.opacity = opacity

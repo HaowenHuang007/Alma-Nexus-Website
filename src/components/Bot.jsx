@@ -6,7 +6,7 @@ export default function Bot() {
   return (
     <section
       id="calculadora"
-      className="relative bg-paper"
+      className="relative"
       style={{ paddingBlock: 'clamp(60px, 8vw, 100px)' }}
     >
       <div className="container-x">
@@ -49,10 +49,14 @@ export default function Bot() {
               ))}
             </ul>
             <div className="flex flex-wrap gap-3">
-              <a className="btn btn-gold" href="#">
+              <button
+                type="button"
+                className="btn btn-gold"
+                onClick={() => window.dispatchEvent(new Event('open-calculator'))}
+              >
                 Abrir calculadora
                 <Arrow />
-              </a>
+              </button>
               <a className="btn" href="#como">
                 Ver cómo funciona
               </a>

@@ -9,7 +9,7 @@ const PHASES = [
 
 export default function Process() {
   return (
-    <section id="proceso" className="relative bg-paper" style={{ paddingBlock: 'var(--section-y, 140px)' }}>
+    <section id="proceso" className="relative" style={{ paddingBlock: 'var(--section-y, 140px)' }}>
       <div className="container-x">
         <SectionHead
           num="05 — Acompañamiento"

@@ -20,7 +20,7 @@ const PROJECTS = [
 
 export default function Proof() {
   return (
-    <section id="proyectos" className="relative bg-paper" style={{ paddingBlock: 'var(--section-y, 140px)' }}>
+    <section id="proyectos" className="relative" style={{ paddingBlock: 'var(--section-y, 140px)' }}>
       <div className="container-x">
         <SectionHead
           num="04 — Proyectos"

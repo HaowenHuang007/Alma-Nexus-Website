@@ -19,8 +19,8 @@ export default function Marquee() {
       className="relative overflow-hidden border-y"
       style={{
         borderColor: 'rgba(217, 164, 65, 0.22)',
-        background: 'linear-gradient(180deg, transparent, rgba(217,164,65,0.04))',
-        paddingBlock: '22px',
+        background: 'linear-gradient(180deg, #FBF7EE, #F4ECDA)',
+        paddingBlock: '26px',
       }}
       aria-hidden="true"
     >

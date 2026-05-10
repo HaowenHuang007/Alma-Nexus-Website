@@ -30,7 +30,7 @@ export default function Differentiation() {
   return (
     <section
       id="diferenciacion"
-      className="relative bg-paper"
+      className="relative"
       style={{ paddingBlock: 'var(--section-y, 140px)' }}
     >
       <div className="container-x">

@@ -5,13 +5,13 @@ const CASES = [
     num: '01 — Particular',
     title: 'Vivienda',
     desc: 'Reduce tu factura y mejora el confort combinando fotovoltaica, aerotermia, ACS o suelo radiante.',
-    cta: { label: 'Calcular vivienda', href: '#calculadora' },
+    cta: { label: 'Calcular vivienda', tipo: 'vivienda' },
   },
   {
     num: '02 — Negocio',
     title: 'Empresa',
     desc: 'Optimiza el consumo de tu nave, local, hotel, oficina o comunidad con una solución energética rentable.',
-    cta: { label: 'Calcular empresa', href: '#calculadora' },
+    cta: { label: 'Calcular empresa', tipo: 'empresa' },
   },
   {
     num: '03 — B2B',
@@ -23,7 +23,7 @@ const CASES = [
 
 export default function WhoFor() {
   return (
-    <section id="para-quien" className="relative bg-paper" style={{ paddingBlock: 'var(--section-y, 140px)' }}>
+    <section id="para-quien" className="relative" style={{ paddingBlock: 'var(--section-y, 140px)' }}>
       <div className="container-x">
         <SectionHead
           num="01 — Identificación"
@@ -42,6 +42,12 @@ export default function WhoFor() {
 }
 
 function Choice({ num, title, desc, cta, delay }) {
+  const handleClick = (e) => {
+    if (cta.tipo) {
+      e.preventDefault()
+      window.dispatchEvent(new CustomEvent('open-calculator', { detail: { tipo: cta.tipo } }))
+    }
+  }
   return (
     <article
       className="reveal card-elevate group relative flex flex-col justify-between gap-8 p-8 rounded-[18px] overflow-hidden"
@@ -64,7 +70,8 @@ function Choice({ num, title, desc, cta, delay }) {
         <p className="text-[0.96rem]">{desc}</p>
       </div>
       <a
-        href={cta.href}
+        href={cta.href || '#calculadora'}
+        onClick={handleClick}
         className="inline-flex items-center gap-2 font-semibold text-[0.92rem] text-ink"
       >
         {cta.label}

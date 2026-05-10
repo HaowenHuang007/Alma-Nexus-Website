@@ -1,13 +1,8 @@
 import { useEffect } from 'react'
 
 /**
- * Emite rayos desde el sol hacia el panel — spec §6, §7, §9:
- *   - 1 o 2 rayos simultáneos como máximo
- *   - Origen: una "punta" aleatoria del sol
- *   - Dirección: hacia el contenido (hacia abajo-izquierda)
- *   - Pulso del sol sincronizado con la emisión (0.6–1s)
- *   - Cuando aterriza: panel se carga (dorado → azul)
- *   - Frecuencia variable cada 2–4 segundos
+ * Rayos curvos (path SVG con bezier) que emanan de las 16 puntas del sol.
+ * Animación lenta y suave.
  */
 export function useRayEmitter({ sunRef, panelRef, stageRef }) {
   useEffect(() => {
@@ -21,7 +16,6 @@ export function useRayEmitter({ sunRef, panelRef, stageRef }) {
       const sun = sunRef.current
       if (!sun) return
       sun.classList.remove('sun-pulse')
-      // Forzar reflow para reiniciar la animación
       void sun.offsetWidth
       sun.classList.add('sun-pulse')
     }
@@ -34,56 +28,72 @@ export function useRayEmitter({ sunRef, panelRef, stageRef }) {
       panel.classList.add('panel-charged')
     }
 
+    const SPIKES = []
+    for (let i = 0; i < 8; i++) {
+      SPIKES.push({ svgRot: i * 45, long: true })
+      SPIKES.push({ svgRot: i * 45 + 22.5, long: false })
+    }
+
+    const SVG_NS = 'http://www.w3.org/2000/svg'
+
     const emitRay = () => {
       if (cancelled) return
       const sun = sunRef.current
       const stage = stageRef.current
       if (!sun || !stage) return
 
-      // Posición actual del sol (con scroll y transformaciones aplicadas)
       const sunRect = sun.getBoundingClientRect()
       const sunCenterX = sunRect.left + sunRect.width / 2
       const sunCenterY = sunRect.top + sunRect.height / 2
 
-      // Punta aleatoria del sol (sesgo hacia abajo-izquierda, donde está el panel)
-      // Puntas en la mitad inferior-izquierda del sol
-      const tipAngles = [120, 135, 150, 165, 180, 195, 210, 225]
-      const tipDeg = tipAngles[Math.floor(Math.random() * tipAngles.length)]
-      const tipRad = (tipDeg * Math.PI) / 180
-      const tipDist = 280
-      const startX = sunCenterX + Math.cos(tipRad) * tipDist
-      const startY = sunCenterY + Math.sin(tipRad) * tipDist
+      const spike = SPIKES[Math.floor(Math.random() * SPIKES.length)]
+      const screenAngleDeg = spike.svgRot - 90 + (Math.random() * 6 - 3)
+      const screenAngleRad = (screenAngleDeg * Math.PI) / 180
 
-      // Rayo hacia abajo-izquierda (panel crece desde abajo)
-      const rayAngle = 135 + (Math.random() * 40 - 20)
+      const sizeFactor = sunRect.width / 880
+      const tipDist = (spike.long ? 380 : 290) * sizeFactor
 
-      const ray = document.createElement('div')
-      ray.className = 'ray'
-      ray.style.left = `${startX}px`
-      ray.style.top = `${startY}px`
-      ray.style.setProperty('--ray-angle', `${rayAngle}deg`)
-      ray.style.width = `${60 + Math.random() * 30}vw`
-      stage.appendChild(ray)
+      const startX = sunCenterX + Math.cos(screenAngleRad) * tipDist
+      const startY = sunCenterY + Math.sin(screenAngleRad) * tipDist
 
-      // Pulso del sol sincronizado (spec §7)
+      // Longitud del rayo en píxeles (50-85vw)
+      const length = (50 + Math.random() * 35) * window.innerWidth / 100
+      const endX = startX + Math.cos(screenAngleRad) * length
+      const endY = startY + Math.sin(screenAngleRad) * length
+
+      // Punto de control para curva — perpendicular a la dirección
+      const midX = (startX + endX) / 2
+      const midY = (startY + endY) / 2
+      const perpX = -Math.sin(screenAngleRad)
+      const perpY = Math.cos(screenAngleRad)
+      const curvature = (Math.random() - 0.5) * length * 0.28
+      const ctrlX = midX + perpX * curvature
+      const ctrlY = midY + perpY * curvature
+
+      const path = document.createElementNS(SVG_NS, 'path')
+      path.setAttribute('d', `M ${startX} ${startY} Q ${ctrlX} ${ctrlY} ${endX} ${endY}`)
+      path.setAttribute('class', 'ray-path')
+      path.style.strokeWidth = `${1.5 + Math.random() * 1.2}`
+      stage.appendChild(path)
+
       pulseSun()
 
-      // Carga del panel cuando el rayo aterriza (~70% de la animación 2.4s)
-      const t1 = setTimeout(chargePanel, 1500)
-      const t2 = setTimeout(() => ray.remove(), 2600)
-      // Siguiente rayo en 1.2-2.8s (a veces se solapan → 1-2 rayos simultáneos)
-      const t3 = setTimeout(emitRay, 1200 + Math.random() * 1600)
+      const towardPanel = screenAngleDeg > 80 && screenAngleDeg < 230
+      const t1 = towardPanel ? setTimeout(chargePanel, 2800) : null
+      const t2 = setTimeout(() => path.remove(), 5200)
+      // Frecuencia más baja: 900-2200ms (más calmado)
+      const t3 = setTimeout(emitRay, 900 + Math.random() * 1300)
 
-      pendingTimeouts.push(t1, t2, t3)
+      if (t1) pendingTimeouts.push(t1)
+      pendingTimeouts.push(t2, t3)
     }
 
-    // Primer rayo tras un pequeño respiro
-    const startId = setTimeout(emitRay, 1200)
+    const startId = setTimeout(emitRay, 600)
     pendingTimeouts.push(startId)
 
     return () => {
       cancelled = true
-      pendingTimeouts.forEach(clearTimeout)
+      pendingTimeouts.forEach((t) => t && clearTimeout(t))
       pendingTimeouts = []
     }
   }, [sunRef, panelRef, stageRef])

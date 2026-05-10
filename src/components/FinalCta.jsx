@@ -3,7 +3,7 @@
  */
 export default function FinalCta() {
   return (
-    <section className="relative bg-paper" style={{ paddingBlock: 'clamp(80px, 10vw, 120px)' }}>
+    <section className="relative" style={{ paddingBlock: 'clamp(80px, 10vw, 120px)' }}>
       <div className="container-x">
         <div
           className="reveal relative max-w-[980px] mx-auto text-center overflow-hidden"
@@ -43,7 +43,11 @@ export default function FinalCta() {
             Un único punto de entrada para cualificar, presupuestar y avanzar hacia
             una solución energética completa, sin compromiso.
           </p>
-          <a className="btn btn-gold" href="#calculadora">
+          <button
+            type="button"
+            className="btn btn-gold"
+            onClick={() => window.dispatchEvent(new Event('open-calculator'))}
+          >
             Abrir calculadora
             <svg
               viewBox="0 0 24 24"
@@ -59,7 +63,7 @@ export default function FinalCta() {
                 strokeLinejoin="round"
               />
             </svg>
-          </a>
+          </button>
         </div>
       </div>
     </section>

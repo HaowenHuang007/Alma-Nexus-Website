@@ -5,8 +5,12 @@ const Sun = forwardRef(function Sun(_, ref) {
     <div
       ref={ref}
       data-sun-root
-      className="absolute top-[-100px] right-[-120px] w-[880px] h-[880px] text-gold will-change-transform"
+      className="absolute text-gold will-change-transform"
       style={{
+        top: '60px',
+        right: '60px',
+        width: '620px',
+        height: '620px',
         transformOrigin: 'center',
         filter: 'drop-shadow(0 0 60px rgba(217, 164, 65, 0.55))',
       }}

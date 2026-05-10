@@ -18,22 +18,25 @@ export default function Hero() {
     >
       <div className="container-x flex-1 flex items-center">
         <div className="max-w-[680px]">
-          <h1
-            className="reveal"
-            style={{ fontSize: 'clamp(3rem, 7.4vw, 6.5rem)', letterSpacing: '-0.04em', lineHeight: 1.02 }}
-          >
-            Energía que
+          <h1 style={{ fontSize: 'clamp(3rem, 7.4vw, 6.5rem)', letterSpacing: '-0.04em', lineHeight: 1.02 }}>
+            <span className="reveal-mask"><span>Energía que</span></span>
             <br />
-            <span style={{ color: '#D9A441', fontStyle: 'italic' }}>transforma</span>
+            <span className="reveal-mask" data-delay="1">
+              <span style={{ color: '#D9A441', fontStyle: 'italic' }}>transforma</span>
+            </span>
           </h1>
           <p className="lead reveal mt-7 mb-9" data-delay="1" style={{ fontSize: 'clamp(1.05rem, 1.4vw, 1.22rem)' }}>
             Soluciones integrales en energía renovable, climatización y eficiencia energética.
           </p>
           <div className="flex flex-wrap gap-3.5 reveal" data-delay="2">
-            <a className="btn btn-gold" href="#calculadora">
+            <button
+              type="button"
+              className="btn btn-gold"
+              onClick={() => window.dispatchEvent(new Event('open-calculator'))}
+            >
               Quiero mi proyecto
               <Arrow />
-            </a>
+            </button>
           </div>
         </div>
       </div>

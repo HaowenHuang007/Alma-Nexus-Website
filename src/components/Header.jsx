@@ -40,9 +40,13 @@ export default function Header() {
           ))}
         </nav>
 
-        <a className="hidden md:inline-flex btn btn-gold btn-small" href="#calculadora">
+        <button
+          type="button"
+          className="hidden md:inline-flex btn btn-gold btn-small"
+          onClick={() => window.dispatchEvent(new Event('open-calculator'))}
+        >
           Solicitar presupuesto
-        </a>
+        </button>
 
         <button
           className="md:hidden flex flex-col justify-center gap-[5px] w-8 h-8"

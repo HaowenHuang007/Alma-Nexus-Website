@@ -9,7 +9,7 @@ const STEPS = [
 
 export default function HowItWorks() {
   return (
-    <section id="como" className="relative bg-paper" style={{ paddingBlock: 'var(--section-y, 140px)' }}>
+    <section id="como" className="relative" style={{ paddingBlock: 'var(--section-y, 140px)' }}>
       <div className="container-x">
         <SectionHead
           num="02 — Proceso"

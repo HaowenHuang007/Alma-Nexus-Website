@@ -8,7 +8,7 @@ export function useReveal() {
   useEffect(() => {
     if (typeof window === 'undefined') return
     if (!('IntersectionObserver' in window)) {
-      document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'))
+      document.querySelectorAll('.reveal, .reveal-mask').forEach((el) => el.classList.add('visible'))
       return
     }
 
@@ -26,7 +26,7 @@ export function useReveal() {
 
     // Observar elementos actuales y futuros mediante MutationObserver
     const observeAll = () => {
-      document.querySelectorAll('.reveal:not(.visible)').forEach((el) => io.observe(el))
+      document.querySelectorAll('.reveal:not(.visible), .reveal-mask:not(.visible)').forEach((el) => io.observe(el))
     }
     observeAll()
 

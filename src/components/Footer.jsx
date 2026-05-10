@@ -31,6 +31,48 @@ export default function Footer() {
       }}
     >
       <div className="container-x">
+        {/* Newsletter */}
+        <div
+          className="reveal mb-16 p-9 md:p-12 rounded-[22px] flex flex-col md:flex-row items-start md:items-center justify-between gap-7"
+          style={{
+            background: 'linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(244, 224, 171, 0.32) 100%)',
+            border: '1px solid rgba(217, 164, 65, 0.32)',
+            backdropFilter: 'blur(14px)',
+          }}
+        >
+          <div className="max-w-[520px]">
+            <span className="eyebrow mb-3 block">Boletín mensual</span>
+            <h3 className="text-[1.45rem] md:text-[1.75rem] mb-2" style={{ letterSpacing: '-0.025em' }}>
+              Ideas para gastar <em>menos energía.</em>
+            </h3>
+            <p className="text-[0.95rem] text-muted">
+              Casos reales, ayudas vigentes y consejos prácticos. Sin spam — solo lo útil.
+            </p>
+          </div>
+          <form
+            className="w-full md:w-auto flex gap-2.5"
+            onSubmit={(e) => { e.preventDefault(); e.target.reset(); }}
+          >
+            <input
+              type="email"
+              required
+              placeholder="tu@email.com"
+              className="flex-1 md:w-[280px] px-5 py-3.5 rounded-full text-[0.95rem] outline-none transition-all"
+              style={{
+                background: 'rgba(255,255,255,0.85)',
+                border: '1px solid rgba(21,17,11,0.10)',
+                color: '#15110B',
+              }}
+            />
+            <button type="submit" className="btn btn-gold flex-shrink-0">
+              Suscribir
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3.5 h-3.5">
+                <path d="M5 12h14M13 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          </form>
+        </div>
+
         <div
           className="grid gap-12 mb-16"
           style={{ gridTemplateColumns: 'minmax(0, 1.4fr) repeat(3, minmax(0, 1fr))' }}
