@@ -20,11 +20,21 @@ export default function Hero() {
     >
       <div className="container-x flex-1 grid items-center" style={{ gridTemplateColumns: 'minmax(0, 1.15fr) minmax(0, 0.85fr)', gap: 'clamp(40px, 6vw, 80px)' }}>
         <div className="max-w-[680px]">
-          <h1 style={{ fontSize: 'clamp(3rem, 7.4vw, 6.5rem)', letterSpacing: '-0.04em', lineHeight: 1.02 }}>
+          <h1 style={{ fontSize: 'clamp(3.4rem, 8.6vw, 8rem)', letterSpacing: '-0.05em', lineHeight: 0.94, fontWeight: 400 }}>
             <span className="reveal-mask"><span>Energía que</span></span>
             <br />
             <span className="reveal-mask" data-delay="1">
-              <span style={{ color: '#D9A441', fontStyle: 'italic' }}>transforma</span>
+              <span
+                style={{
+                  fontStyle: 'italic',
+                  background: 'linear-gradient(135deg, #C99634 0%, #D9A441 30%, #F4D177 60%, #A87614 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                transforma
+              </span>
             </span>
           </h1>
           <p className="lead reveal mt-7 mb-9" data-delay="1" style={{ fontSize: 'clamp(1.05rem, 1.4vw, 1.22rem)' }}>
