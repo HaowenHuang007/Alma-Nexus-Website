@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pandoc \"C:\\\\Users\\\\hhw61\\\\Downloads\\\\ESPECIFICACIÓN_WEB_ALMA.docx\" -o - --to plain)",
+      "PowerShell(pandoc \"C:\\\\Users\\\\hhw61\\\\Downloads\\\\ESPECIFICACI��N_WEB_ALMA.docx\" --to plain 2>&1)",
+      "PowerShell(Get-ChildItem \"$env:TEMP\\\\alma_docx_extract\\\\word\\\\\" | Select-Object Name)",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\hhw61\\\\Downloads\\\\\" | Where-Object { \\($_.Extension -in \".jpg\",\".jpeg\",\".png\",\".webp\"\\) -and $_.LastWriteTime -gt \\(Get-Date\\).AddHours\\(-2\\) } | Select-Object Name, LastWriteTime, FullName)",
+      "Bash(git init *)",
+      "Bash(git remote *)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
+    ]
+  }
+}
