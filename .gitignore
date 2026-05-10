@@ -6,3 +6,5 @@ dist-ssr
 .vscode
 .idea
 *.log
+
+.claude
