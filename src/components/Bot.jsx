@@ -70,7 +70,36 @@ export default function Bot() {
   )
 }
 
+import { useEffect, useState } from 'react'
+
+const SCRIPT = [
+  { who: 'bot',  text: 'Hola, soy el asistente de Alma. ¿Quieres calcular para una vivienda, una empresa o una comunidad?' },
+  { who: 'user', text: 'Una vivienda unifamiliar.' },
+  { who: 'bot',  text: 'Perfecto. Te puedo estimar fotovoltaica, aerotermia y ahorro real. ¿Cuál es tu factura mensual aproximada?' },
+  { who: 'user', text: 'Unos 180 €/mes.' },
+  { who: 'bot',  text: 'Con eso preparo una primera propuesta con inversión, retorno y ahorro estimado.' },
+]
+
 function BotPreview() {
+  const [visible, setVisible] = useState(0)
+
+  useEffect(() => {
+    let timeouts = []
+    let cycleTimeout
+    const cycle = () => {
+      setVisible(0)
+      SCRIPT.forEach((_, i) => {
+        timeouts.push(setTimeout(() => setVisible(i + 1), 800 + i * 1100))
+      })
+      cycleTimeout = setTimeout(cycle, 800 + SCRIPT.length * 1100 + 4000)
+    }
+    cycle()
+    return () => {
+      timeouts.forEach(clearTimeout)
+      clearTimeout(cycleTimeout)
+    }
+  }, [])
+
   return (
     <div
       className="relative flex flex-col gap-3 p-6 rounded-[22px] bg-white shadow-md-soft"
@@ -90,20 +119,32 @@ function BotPreview() {
         </span>
       </div>
 
-      <Bubble who="bot">
-        Hola, soy el asistente de Alma. ¿Quieres calcular para una vivienda, una
-        empresa o una comunidad?
-      </Bubble>
-      <Bubble who="user">Una vivienda unifamiliar.</Bubble>
-      <Bubble who="bot">
-        Perfecto. Te puedo estimar fotovoltaica, aerotermia y ahorro real. ¿Cuál es
-        tu factura mensual aproximada?
-      </Bubble>
-      <Bubble who="user">Unos 180 €/mes.</Bubble>
-      <Bubble who="bot">
-        Con eso preparo una primera propuesta con inversión, retorno y ahorro
-        estimado.
-      </Bubble>
+      {SCRIPT.map((m, i) => (
+        i < visible && <Bubble key={`${visible}-${i}`} who={m.who}>{m.text}</Bubble>
+      ))}
+
+      {visible < SCRIPT.length && visible > 0 && (
+        <div
+          className="bot-bubble flex items-center gap-1.5 px-4 py-3 rounded-2xl"
+          style={{
+            background: SCRIPT[visible].who === 'bot' ? 'rgba(244, 224, 171, 0.42)' : '#15110B',
+            border: SCRIPT[visible].who === 'bot' ? '1px solid rgba(217, 164, 65, 0.18)' : 'none',
+            alignSelf: SCRIPT[visible].who === 'bot' ? 'flex-start' : 'flex-end',
+          }}
+        >
+          {[0, 1, 2].map((i) => (
+            <span
+              key={i}
+              className="w-1.5 h-1.5 rounded-full"
+              style={{
+                background: SCRIPT[visible].who === 'bot' ? '#A87614' : '#FCFCFA',
+                opacity: 0.6,
+                animation: `dotBounce 1.2s ease-in-out ${i * 0.15}s infinite`,
+              }}
+            />
+          ))}
+        </div>
+      )}
     </div>
   )
 }
@@ -112,7 +153,7 @@ function Bubble({ who, children }) {
   const isBot = who === 'bot'
   return (
     <div
-      className="px-4 py-3 rounded-2xl text-[0.94rem] leading-snug"
+      className="bot-bubble px-4 py-3 rounded-2xl text-[0.94rem] leading-snug"
       style={{
         maxWidth: '88%',
         background: isBot ? 'rgba(244, 224, 171, 0.42)' : '#15110B',

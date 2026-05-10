@@ -56,7 +56,7 @@ export default function Differentiation() {
             {CARDS.map((c, i) => (
               <article
                 key={c.num}
-                className="reveal card-elevate p-7 rounded-[18px]"
+                className="reveal card-elevate tilt p-7 rounded-[18px]"
                 data-delay={i + 1}
                 style={{
                   background: 'rgba(255, 255, 255, 0.88)',

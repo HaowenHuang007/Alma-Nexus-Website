@@ -129,6 +129,7 @@
     color: #fff;
     transform: translateY(-2px);
   }
+  .magnetic { will-change: transform; }
   .btn-gold {
     background: linear-gradient(135deg, #C99634 0%, #D9A441 45%, #F4D177 100%);
     color: #15110B;
@@ -257,6 +258,32 @@
 @keyframes panelPulseBg {
   0%, 100% { opacity: 0.25; }
   50%      { opacity: 0.55; }
+}
+
+/* Preloader */
+@keyframes preloadCore { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+@keyframes preloadSpin { 0% { transform: rotate(0); } 100% { transform: rotate(360deg); } }
+@keyframes preloadFade { to { opacity: 1; } }
+@keyframes preloadSun  { 0% { transform: scale(0.6); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+@keyframes preloadBar  { to { width: 100%; } }
+
+/* Bot chat — typing animation */
+.bot-bubble {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: bubbleIn 0.5s cubic-bezier(0.2,0.7,0.3,1) forwards;
+}
+@keyframes bubbleIn { to { opacity: 1; transform: translateY(0); } }
+@keyframes dotBounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30%           { transform: translateY(-3px); opacity: 1; }
+}
+
+/* Pulso de los puntos del mapa */
+@keyframes mapPulse {
+  0%   { transform: scale(0.6); opacity: 0; }
+  20%  { opacity: 1; }
+  100% { transform: scale(5); opacity: 0; }
 }
 
 /* Modal calculator entrance */
