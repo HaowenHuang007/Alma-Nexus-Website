@@ -330,18 +330,27 @@
   .ray { width: 100vw; }
 }
 
-/* RAYOS — paths SVG curvos que viajan lentamente desde las puntas del sol */
-.ray-path {
+/* RAYOS — láser cinematográfico: halo brumoso + núcleo blanco */
+.ray-halo, .ray-core {
   fill: none;
-  stroke: url(#rayGrad);
   stroke-linecap: round;
   stroke-dasharray: 220 3000;
   stroke-dashoffset: 3000;
-  filter:
-    drop-shadow(0 0 8px rgba(217, 164, 65, 0.6))
-    drop-shadow(0 0 18px rgba(217, 164, 65, 0.35));
   opacity: 0;
   animation: rayTravel 4.8s cubic-bezier(0.25, 0.55, 0.35, 1) forwards;
+}
+.ray-halo {
+  stroke: url(#rayGrad);
+  filter:
+    drop-shadow(0 0 14px rgba(255, 220, 140, 0.95))
+    drop-shadow(0 0 32px rgba(217, 164, 65, 0.65))
+    drop-shadow(0 0 60px rgba(217, 164, 65, 0.35));
+}
+.ray-core {
+  stroke: url(#rayCore);
+  filter:
+    drop-shadow(0 0 4px rgba(255, 255, 255, 1))
+    drop-shadow(0 0 10px rgba(255, 248, 220, 0.9));
 }
 @keyframes rayTravel {
   0%   { opacity: 0;   stroke-dashoffset: 3000; }

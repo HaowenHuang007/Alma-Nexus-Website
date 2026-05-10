@@ -12,7 +12,7 @@ const Sun = forwardRef(function Sun(_, ref) {
         width: '620px',
         height: '620px',
         transformOrigin: 'center',
-        filter: 'drop-shadow(0 0 60px rgba(217, 164, 65, 0.55))',
+        filter: 'drop-shadow(0 0 80px rgba(255, 220, 140, 0.85)) drop-shadow(0 0 160px rgba(217, 164, 65, 0.55))',
       }}
       aria-hidden="true"
     >
@@ -21,7 +21,13 @@ const Sun = forwardRef(function Sun(_, ref) {
         className="absolute inset-0 pointer-events-none"
         style={{
           background: `
-            radial-gradient(circle at 50% 50%, rgba(255, 230, 160, 0.55) 0%, rgba(217, 164, 65, 0.32) 22%, rgba(217, 164, 65, 0.10) 44%, transparent 65%)
+            radial-gradient(circle at 50% 50%,
+              rgba(255, 245, 200, 0.95) 0%,
+              rgba(255, 220, 140, 0.75) 12%,
+              rgba(244, 200, 100, 0.50) 26%,
+              rgba(217, 164, 65, 0.28) 42%,
+              rgba(217, 164, 65, 0.10) 58%,
+              transparent 75%)
           `,
         }}
       />

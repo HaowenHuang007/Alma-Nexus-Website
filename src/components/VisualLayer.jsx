@@ -32,6 +32,12 @@ export default function VisualLayer() {
             <stop offset="92%"  stopColor="rgba(255,255,255,0.9)" />
             <stop offset="100%" stopColor="rgba(255,255,255,0)" />
           </linearGradient>
+          <linearGradient id="rayCore" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stopColor="rgba(255,255,255,0)" />
+            <stop offset="30%"  stopColor="rgba(255,255,255,0.95)" />
+            <stop offset="65%"  stopColor="rgba(255,255,255,1)" />
+            <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+          </linearGradient>
         </defs>
       </svg>
     </div>

@@ -70,19 +70,30 @@ export function useRayEmitter({ sunRef, panelRef, stageRef }) {
       const ctrlX = midX + perpX * curvature
       const ctrlY = midY + perpY * curvature
 
-      const path = document.createElementNS(SVG_NS, 'path')
-      path.setAttribute('d', `M ${startX} ${startY} Q ${ctrlX} ${ctrlY} ${endX} ${endY}`)
-      path.setAttribute('class', 'ray-path')
-      path.style.strokeWidth = `${1.5 + Math.random() * 1.2}`
-      stage.appendChild(path)
+      const d = `M ${startX} ${startY} Q ${ctrlX} ${ctrlY} ${endX} ${endY}`
+      const baseW = 1.5 + Math.random() * 1.2
+
+      // Halo brumoso (ancho, blureado)
+      const halo = document.createElementNS(SVG_NS, 'path')
+      halo.setAttribute('d', d)
+      halo.setAttribute('class', 'ray-halo')
+      halo.style.strokeWidth = `${baseW * 3.5}`
+      stage.appendChild(halo)
+
+      // Núcleo brillante (fino, blanco)
+      const core = document.createElementNS(SVG_NS, 'path')
+      core.setAttribute('d', d)
+      core.setAttribute('class', 'ray-core')
+      core.style.strokeWidth = `${baseW * 0.55}`
+      stage.appendChild(core)
 
       pulseSun()
 
       const towardPanel = screenAngleDeg > 80 && screenAngleDeg < 230
       const t1 = towardPanel ? setTimeout(chargePanel, 2800) : null
-      const t2 = setTimeout(() => path.remove(), 5200)
-      // Frecuencia más baja: 900-2200ms (más calmado)
-      const t3 = setTimeout(emitRay, 900 + Math.random() * 1300)
+      const t2 = setTimeout(() => { halo.remove(); core.remove() }, 5200)
+      // Frecuencia más alta: 500-1500ms (4-6 rayos solapados)
+      const t3 = setTimeout(emitRay, 500 + Math.random() * 1000)
 
       if (t1) pendingTimeouts.push(t1)
       pendingTimeouts.push(t2, t3)
