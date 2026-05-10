@@ -92,8 +92,8 @@ export function useRayEmitter({ sunRef, panelRef, stageRef }) {
       const towardPanel = screenAngleDeg > 80 && screenAngleDeg < 230
       const t1 = towardPanel ? setTimeout(chargePanel, 2800) : null
       const t2 = setTimeout(() => { halo.remove(); core.remove() }, 5200)
-      // Frecuencia más alta: 500-1500ms (4-6 rayos solapados)
-      const t3 = setTimeout(emitRay, 500 + Math.random() * 1000)
+      // Frecuencia moderada para no saturar el render
+      const t3 = setTimeout(emitRay, 1400 + Math.random() * 1600)
 
       if (t1) pendingTimeouts.push(t1)
       pendingTimeouts.push(t2, t3)

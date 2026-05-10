@@ -16,7 +16,8 @@ export default function SectionDots() {
   const [active, setActive] = useState(0)
 
   useEffect(() => {
-    const onScroll = () => {
+    let raf = null
+    const update = () => {
       const mid = window.innerHeight / 2
       let bestIdx = 0
       let bestDist = Infinity
@@ -27,10 +28,15 @@ export default function SectionDots() {
         if (dist < bestDist) { bestDist = dist; bestIdx = i }
       })
       setActive(bestIdx)
+      raf = null
     }
-    onScroll()
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update) }
+    update()
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      if (raf) cancelAnimationFrame(raf)
+    }
   }, [])
 
   return (

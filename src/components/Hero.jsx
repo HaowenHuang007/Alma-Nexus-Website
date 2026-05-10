@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+
 const FEATURES = [
   { title: 'Energía limpia', desc: '100 % renovable y sostenible' },
   { title: 'Máxima eficiencia', desc: 'Tecnología avanzada y ahorro real' },
@@ -16,7 +18,7 @@ export default function Hero() {
         minHeight: '100vh',
       }}
     >
-      <div className="container-x flex-1 flex items-center">
+      <div className="container-x flex-1 grid items-center" style={{ gridTemplateColumns: 'minmax(0, 1.15fr) minmax(0, 0.85fr)', gap: 'clamp(40px, 6vw, 80px)' }}>
         <div className="max-w-[680px]">
           <h1 style={{ fontSize: 'clamp(3rem, 7.4vw, 6.5rem)', letterSpacing: '-0.04em', lineHeight: 1.02 }}>
             <span className="reveal-mask"><span>Energía que</span></span>
@@ -26,7 +28,7 @@ export default function Hero() {
             </span>
           </h1>
           <p className="lead reveal mt-7 mb-9" data-delay="1" style={{ fontSize: 'clamp(1.05rem, 1.4vw, 1.22rem)' }}>
-            Soluciones integrales en energía renovable, climatización y eficiencia energética.
+            Soluciones <RotatingWord /> en energía renovable, climatización y eficiencia.
           </p>
           <div className="flex flex-wrap gap-3.5 reveal" data-delay="2">
             <button
@@ -38,6 +40,11 @@ export default function Hero() {
               <Arrow />
             </button>
           </div>
+        </div>
+
+        {/* Tarjeta lateral derecha — visual decorativo (oculta en móvil) */}
+        <div className="hidden lg:block reveal" data-delay="3">
+          <HeroSideCard />
         </div>
       </div>
 
@@ -69,6 +76,125 @@ export default function Hero() {
         </div>
       </div>
     </section>
+  )
+}
+
+function HeroSideCard() {
+  const [tick, setTick] = useState(0)
+  useEffect(() => {
+    const id = setInterval(() => setTick((t) => t + 1), 1000)
+    return () => clearInterval(id)
+  }, [])
+  // Live stats que tickan
+  const kwh = (tick * 14.6).toFixed(1)
+  const eur = (tick * 2.34).toFixed(2)
+
+  return (
+    <div
+      className="relative ml-auto"
+      style={{ maxWidth: '380px' }}
+    >
+      {/* Card principal */}
+      <div
+        className="relative p-6 rounded-[22px] overflow-hidden"
+        style={{
+          background: 'linear-gradient(135deg, rgba(255,255,255,0.95), rgba(244,224,171,0.45))',
+          border: '1px solid rgba(217,164,65,0.32)',
+          boxShadow: '0 30px 70px rgba(21,17,11,0.12), 0 8px 22px rgba(217,164,65,0.18)',
+          backdropFilter: 'blur(14px)',
+        }}
+      >
+        <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-gold animate-breathe" style={{ boxShadow: '0 0 8px rgba(217,164,65,0.6)' }} />
+            <span className="text-[0.74rem] uppercase tracking-[0.14em] font-bold text-gold-deep">En directo</span>
+          </div>
+          <span className="text-[0.72rem] text-muted">flota Alma</span>
+        </div>
+
+        <div className="mb-5 pb-5" style={{ borderBottom: '1px solid rgba(21,17,11,0.10)' }}>
+          <div className="text-[0.78rem] text-muted mb-1.5">Producción ahora</div>
+          <strong
+            className="block font-serif font-medium text-ink"
+            style={{ fontSize: '2.4rem', letterSpacing: '-0.04em', lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}
+          >
+            {Number(kwh).toLocaleString('es', { minimumFractionDigits: 1 })}
+            <em className="italic text-gold-deep" style={{ fontSize: '0.5em', marginLeft: '5px' }}>kWh</em>
+          </strong>
+        </div>
+
+        <div className="mb-5">
+          <div className="text-[0.78rem] text-muted mb-1.5">Ahorro acumulado</div>
+          <strong
+            className="block font-serif font-medium text-gold-deep"
+            style={{ fontSize: '1.6rem', letterSpacing: '-0.03em', lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}
+          >
+            {Number(eur).toLocaleString('es', { minimumFractionDigits: 2 })}
+            <em className="italic" style={{ fontSize: '0.6em', marginLeft: '4px' }}>€</em>
+          </strong>
+        </div>
+
+        {/* Mini gráfica de barras */}
+        <div className="flex items-end gap-1.5 h-12">
+          {[35, 52, 68, 45, 78, 95, 82, 67, 88, 72, 58, 90].map((h, i) => (
+            <div
+              key={i}
+              className="flex-1 rounded-t-sm"
+              style={{
+                height: `${h}%`,
+                background: 'linear-gradient(180deg, #D9A441, rgba(217,164,65,0.3))',
+                animation: `barGrow 0.8s ease-out ${i * 0.05}s backwards`,
+              }}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Mini-card flotante — ahorro mensual */}
+      <div
+        className="absolute -bottom-5 -left-7 px-5 py-3.5 rounded-[14px]"
+        style={{
+          background: '#15110B',
+          color: '#FCFCFA',
+          border: '1px solid rgba(217,164,65,0.4)',
+          boxShadow: '0 18px 36px rgba(21,17,11,0.32)',
+        }}
+      >
+        <div className="text-[0.66rem] uppercase tracking-[0.14em] font-bold" style={{ color: '#F4D177' }}>Ahorro/mes</div>
+        <div
+          className="font-serif font-medium"
+          style={{ fontSize: '1.5rem', letterSpacing: '-0.03em', lineHeight: 1, color: '#F4D177', marginTop: '2px' }}
+        >
+          −180 €
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function RotatingWord() {
+  const words = ['sostenibles', 'eficientes', 'inteligentes', 'rentables']
+  const [i, setI] = useState(0)
+  useEffect(() => {
+    const id = setInterval(() => setI((v) => (v + 1) % words.length), 2400)
+    return () => clearInterval(id)
+  }, [])
+  return (
+    <span
+      className="inline-block relative"
+      style={{ minWidth: '8.5ch', verticalAlign: 'baseline', overflow: 'hidden', height: '1.2em', textAlign: 'left' }}
+    >
+      <span
+        key={i}
+        className="inline-block font-serif italic text-gold-deep"
+        style={{
+          fontVariationSettings: "'opsz' 36, 'SOFT' 100",
+          animation: 'wordSlide 2.4s cubic-bezier(0.2,0.7,0.3,1)',
+        }}
+      >
+        {words[i]}
+      </span>
+    </span>
   )
 }
 

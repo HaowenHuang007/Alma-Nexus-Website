@@ -1,4 +1,6 @@
 import VisualLayer from './components/VisualLayer'
+import BackgroundDecor from './components/BackgroundDecor'
+import HeatWaves from './components/HeatWaves'
 import Preloader from './components/Preloader'
 import ScrollProgress from './components/ScrollProgress'
 import SectionDots from './components/SectionDots'
@@ -7,6 +9,8 @@ import Hero from './components/Hero'
 import Marquee from './components/Marquee'
 import PanelShowcase from './components/PanelShowcase'
 import TrustedBy from './components/TrustedBy'
+import Recognitions from './components/Recognitions'
+import Divider from './components/Divider'
 import WhoFor from './components/WhoFor'
 import Bot from './components/Bot'
 import Economy from './components/Economy'
@@ -27,21 +31,18 @@ import Footer from './components/Footer'
 import StickyCta from './components/StickyCta'
 import FloatingContacts from './components/FloatingContacts'
 import Calculator from './components/Calculator'
+import PartnerModal from './components/PartnerModal'
 import { useReveal } from './hooks/useReveal'
-import { useCursor } from './hooks/useCursor'
-import { useTilt } from './hooks/useTilt'
-import { useMagnetic } from './hooks/useMagnetic'
 
 export default function App() {
   useReveal()
-  useCursor()
-  useTilt('.tilt')
-  useMagnetic('.btn-gold')
   return (
     <>
       <Preloader />
       <ScrollProgress />
       <SectionDots />
+      <BackgroundDecor />
+      <HeatWaves />
       <VisualLayer />
       <Header />
       <main className="relative z-[1]">
@@ -54,15 +55,18 @@ export default function App() {
         <Economy />
         <HowItWorks />
         <Solutions />
+        <Divider />
         <Differentiation />
         <Comparison />
         <LiveCounter />
         <Impact />
         <SpainMap />
+        <Divider />
         <Proof />
         <Testimonials />
         <Process />
         <Partners />
+        <Recognitions />
         <FAQ />
         <FinalCta />
       </main>
@@ -70,6 +74,7 @@ export default function App() {
       <StickyCta />
       <FloatingContacts />
       <Calculator />
+      <PartnerModal />
     </>
   )
 }

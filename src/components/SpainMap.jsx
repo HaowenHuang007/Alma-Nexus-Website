@@ -2,24 +2,55 @@ import SectionHead from './SectionHead'
 
 /**
  * Mapa SVG de España con puntos pulsando en las ciudades donde hay proyectos.
- * Coordenadas aproximadas en el viewBox 0-1000 / 0-700.
  */
 const PROJECTS = [
-  { name: 'Madrid',     x: 480, y: 340, count: 184, delay: 0 },
-  { name: 'Barcelona',  x: 800, y: 270, count: 156, delay: 0.5 },
-  { name: 'Valencia',   x: 660, y: 410, count: 132, delay: 1.0 },
-  { name: 'Sevilla',    x: 320, y: 510, count: 98,  delay: 1.5 },
-  { name: 'Bilbao',     x: 530, y: 150, count: 87,  delay: 2.0 },
-  { name: 'Zaragoza',   x: 620, y: 280, count: 74,  delay: 2.5 },
-  { name: 'Málaga',     x: 410, y: 560, count: 68,  delay: 3.0 },
-  { name: 'A Coruña',   x: 200, y: 110, count: 52,  delay: 3.5 },
-  { name: 'Murcia',     x: 600, y: 490, count: 48,  delay: 4.0 },
-  { name: 'Granada',    x: 470, y: 540, count: 42,  delay: 4.5 },
+  { name: 'Madrid',     x: 480, y: 320, count: 184, delay: 0 },
+  { name: 'Barcelona',  x: 815, y: 268, count: 156, delay: 0.5 },
+  { name: 'Valencia',   x: 700, y: 405, count: 132, delay: 1.0 },
+  { name: 'Sevilla',    x: 335, y: 488, count: 98,  delay: 1.5 },
+  { name: 'Bilbao',     x: 555, y: 145, count: 87,  delay: 2.0 },
+  { name: 'Zaragoza',   x: 645, y: 245, count: 74,  delay: 2.5 },
+  { name: 'Málaga',     x: 420, y: 525, count: 68,  delay: 3.0 },
+  { name: 'A Coruña',   x: 215, y: 130, count: 52,  delay: 3.5 },
+  { name: 'Murcia',     x: 615, y: 460, count: 48,  delay: 4.0 },
+  { name: 'Granada',    x: 490, y: 510, count: 42,  delay: 4.5 },
 ]
 
-// Path muy simplificado de la silueta de la península + Baleares
-const MAINLAND = 'M120,150 Q140,90 220,90 L350,80 Q420,75 470,100 L580,90 Q700,80 780,110 L860,150 Q900,200 880,260 L890,330 Q880,420 820,470 L760,520 Q680,560 600,560 L500,580 Q400,590 320,580 L240,560 Q170,540 130,490 L100,420 Q80,330 90,260 Q95,200 120,150 Z'
-const BALEARES = 'M880,360 Q900,355 920,365 Q930,375 920,385 Q900,390 880,380 Q872,370 880,360 Z'
+const MAINLAND = `
+  M 145 105
+  Q 175 88 260 82
+  Q 355 80 440 88
+  Q 535 100 615 118
+  Q 685 138 720 175
+  L 755 210
+  Q 805 240 855 268
+  L 870 290
+  Q 858 325 825 355
+  Q 790 388 750 415
+  Q 705 445 655 472
+  Q 600 498 540 520
+  Q 460 542 380 552
+  Q 305 558 255 545
+  Q 220 530 205 505
+  Q 195 478 198 430
+  Q 200 372 215 305
+  Q 230 245 218 195
+  Q 195 150 165 122
+  Q 145 105 145 105 Z
+`
+
+const BALEARES = `
+  M 905 322
+  Q 925 318 942 326
+  Q 950 334 942 344
+  Q 925 348 905 342
+  Q 898 332 905 322 Z
+  M 968 305
+  Q 980 302 988 308
+  Q 992 316 985 322
+  Q 974 324 965 318
+  Q 962 310 968 305 Z
+`
 
 export default function SpainMap() {
   return (
@@ -44,8 +75,8 @@ export default function SpainMap() {
           <svg viewBox="0 0 1000 700" className="w-full h-auto">
             <defs>
               <linearGradient id="mapFill" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%"  stopColor="rgba(217,164,65,0.10)" />
-                <stop offset="100%" stopColor="rgba(217,164,65,0.04)" />
+                <stop offset="0%"  stopColor="rgba(217,164,65,0.20)" />
+                <stop offset="100%" stopColor="rgba(217,164,65,0.08)" />
               </linearGradient>
               <radialGradient id="dotGlow" cx="50%" cy="50%" r="50%">
                 <stop offset="0%"  stopColor="rgba(217,164,65,0.6)" />
@@ -53,26 +84,23 @@ export default function SpainMap() {
               </radialGradient>
             </defs>
 
-            {/* Silueta */}
             <path
               d={MAINLAND}
               fill="url(#mapFill)"
-              stroke="rgba(217,164,65,0.40)"
-              strokeWidth="1.5"
-              strokeDasharray="3 4"
+              stroke="rgba(168, 118, 20, 0.55)"
+              strokeWidth="1.8"
+              strokeLinejoin="round"
             />
             <path
               d={BALEARES}
               fill="url(#mapFill)"
-              stroke="rgba(217,164,65,0.40)"
-              strokeWidth="1.5"
-              strokeDasharray="3 4"
+              stroke="rgba(168, 118, 20, 0.55)"
+              strokeWidth="1.8"
+              strokeLinejoin="round"
             />
 
-            {/* Puntos */}
             {PROJECTS.map((p) => (
               <g key={p.name}>
-                {/* Halo pulsante */}
                 <circle
                   cx={p.x}
                   cy={p.y}
@@ -84,17 +112,13 @@ export default function SpainMap() {
                     animationDelay: `${p.delay}s`,
                   }}
                 />
-                {/* Punto sólido */}
                 <circle
                   cx={p.x}
                   cy={p.y}
                   r="4"
                   fill="#D9A441"
-                  style={{
-                    filter: 'drop-shadow(0 0 6px rgba(217,164,65,0.7))',
-                  }}
+                  style={{ filter: 'drop-shadow(0 0 6px rgba(217,164,65,0.7))' }}
                 />
-                {/* Etiqueta */}
                 <text
                   x={p.x + 12}
                   y={p.y + 4}

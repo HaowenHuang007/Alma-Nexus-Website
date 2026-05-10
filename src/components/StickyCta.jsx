@@ -8,16 +8,21 @@ export default function StickyCta() {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => {
+    let raf = null
+    const update = () => {
       const vh = window.innerHeight
       const y = window.scrollY
       const max = document.body.scrollHeight - vh
-      // Visible entre 1.2vh y 95% del scroll
       setVisible(y > vh * 1.2 && y < max * 0.94)
+      raf = null
     }
-    onScroll()
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update) }
+    update()
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      if (raf) cancelAnimationFrame(raf)
+    }
   }, [])
 
   return (

@@ -17,7 +17,7 @@ export default function Impact() {
       }}
     >
       <div className="container-x">
-        <div className="text-center max-w-[720px] mx-auto mb-14">
+        <div className="text-center max-w-[720px] mx-auto mb-10">
           <span className="eyebrow reveal">Impacto</span>
           <h2 className="reveal mt-5" data-delay="1">
             Cifras que <em>importan.</em>
@@ -26,6 +26,24 @@ export default function Impact() {
             Cada kWh que producimos es energía que dejas de comprar. Cada tonelada de
             CO₂ evitada es un futuro mejor.
           </p>
+
+          {/* Pills decorativas */}
+          <div className="reveal mt-8 flex items-center justify-center gap-2 flex-wrap" data-delay="3">
+            {['🏆 Premio Solar 2024', '⭐ Top 10 instaladores', '🌱 Empresa B Corp'].map((t) => (
+              <span
+                key={t}
+                className="px-4 py-2 rounded-full text-[0.82rem] font-semibold"
+                style={{
+                  background: 'rgba(255,255,255,0.85)',
+                  border: '1px solid rgba(217,164,65,0.32)',
+                  color: '#A87614',
+                  backdropFilter: 'blur(8px)',
+                }}
+              >
+                {t}
+              </span>
+            ))}
+          </div>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {STATS.map((s, i) => <Stat key={i} {...s} delay={i + 1} />)}

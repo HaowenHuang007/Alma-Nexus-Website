@@ -1,7 +1,5 @@
-/**
- * Bot / Calculadora — el núcleo de la web (spec §3.3).
- * Sin compromiso, resultado inmediato, adaptado al tipo de cliente.
- */
+import panelImg from '../assets/panel.jpg'
+
 export default function Bot() {
   return (
     <section
@@ -11,7 +9,7 @@ export default function Bot() {
     >
       <div className="container-x">
         <div
-          className="reveal grid items-stretch rounded-[28px] shadow-lg-soft"
+          className="reveal relative grid items-stretch rounded-[28px] shadow-lg-soft overflow-hidden"
           style={{
             gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 0.95fr)',
             gap: 'clamp(28px, 4vw, 60px)',
@@ -22,7 +20,25 @@ export default function Bot() {
             backdropFilter: 'blur(14px)',
           }}
         >
-          <div>
+          {/* Imagen panel difuminada al fondo (esquina superior derecha) */}
+          <div
+            className="absolute pointer-events-none"
+            aria-hidden="true"
+            style={{
+              top: '-30%',
+              right: '-15%',
+              width: '60%',
+              height: '120%',
+              backgroundImage: `url(${panelImg})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              opacity: 0.10,
+              filter: 'blur(2px)',
+              maskImage: 'radial-gradient(ellipse at 60% 40%, black 30%, transparent 70%)',
+              WebkitMaskImage: 'radial-gradient(ellipse at 60% 40%, black 30%, transparent 70%)',
+            }}
+          />
+          <div className="relative">
             <span className="eyebrow">Calculadora inteligente</span>
             <h2 className="mt-5 mb-5">
               Precio, ahorro y solución técnica <em>en minutos.</em>
@@ -63,7 +79,9 @@ export default function Bot() {
             </div>
           </div>
 
-          <BotPreview />
+          <div className="relative">
+            <BotPreview />
+          </div>
         </div>
       </div>
     </section>

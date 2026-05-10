@@ -33,10 +33,18 @@ export default function Marquee() {
             >
               {v}
             </span>
-            <span className="w-1.5 h-1.5 rounded-full bg-gold flex-shrink-0" style={{ boxShadow: '0 0 8px rgba(217,164,65,0.55)' }} />
+            <Star />
           </span>
         ))}
       </div>
     </div>
+  )
+}
+
+function Star() {
+  return (
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="#D9A441" aria-hidden="true" style={{ flexShrink: 0, filter: 'drop-shadow(0 0 6px rgba(217,164,65,0.55))' }}>
+      <path d="M12 2l2.4 6.6L21 10l-5.5 4 2 7-5.5-4-5.5 4 2-7L3 10l6.6-1.4z" />
+    </svg>
   )
 }
